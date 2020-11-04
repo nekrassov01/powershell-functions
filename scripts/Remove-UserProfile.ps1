@@ -10,7 +10,7 @@
             Mandatory = $true
         )]
         [ValidateNotNullOrEmpty()]
-        [string[]]$UserAccount,
+        [string[]]$UserName,
 
         [Parameter(
             Mandatory = $false
@@ -26,12 +26,29 @@
 
     Process
     {
-        $UserAccount | ForEach-Object -Process {
+        $UserName | ForEach-Object -Process {
+
             $NTAccount = [System.Security.Principal.NTAccount]$_
             $Sid = $NTAccount.Translate([System.Security.Principal.SecurityIdentifier]).Value
-            $Target = Get-CimInstance -ClassName Win32_UserProfile -ComputerName $ComputerName | Where-Object -FilterScript { $_.SID -eq $Sid }
-            $Target | Remove-CimInstance -WhatIf
-            $Result += $NTAccount.Value
+
+            $Obj = New-Object -TypeName PSCustomObject | Select-Object -Property "ComputerName", "UserName", "SID", "Result"
+            $Obj."ComputerName" = $ComputerName
+            $Obj."UserName" = $_
+            $Obj."SID" = $Sid
+            
+            $Target = Get-WmiObject -ClassName Win32_UserProfile -ComputerName $ComputerName | Where-Object -FilterScript { $_.SID -eq $Sid }
+            $Target | Remove-WmiObject -WhatIf
+
+            If($?)
+            {
+                $Obj."Result" = "Success"
+            }
+            Else
+            {
+                $Obj."Result" = "Error"
+            }
+
+            $Result += $Obj
         }
     }
 
@@ -43,19 +60,19 @@
 
 ### Example ###
 
-$UserAccount = @(
+$UserName = @(
     "User-01"
     "User-02"
 )
 
 # Example 1
-Remove-UserProfile -UserAccount $UserAccount
+Remove-UserProfile -UserName $UserName
 
 # Example 2
-#Remove-UserProfile -UserAccount $UserAccount -ComputerName "RemoteHost"
+Remove-UserProfile -UserName $UserName -ComputerName "RemoteHost"
 
 # Example 3
-#$UserAccount | Remove-UserProfile
+$UserName | Remove-UserProfile
 
 # Example 4
-#$UserAccount | Remove-UserProfile -ComputerName "RemoteHost"
+$UserName | Remove-UserProfile -ComputerName "RemoteHost"
