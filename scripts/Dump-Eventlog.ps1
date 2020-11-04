@@ -99,6 +99,8 @@
     }
 }
 
+<#
+
 ### Examples ###
 
 # Example 1
@@ -135,3 +137,5 @@ $Params4 = @{
     Recently     = 24*7
 }
 "System", "Application" | Dump-Eventlog @Params4
+
+#>

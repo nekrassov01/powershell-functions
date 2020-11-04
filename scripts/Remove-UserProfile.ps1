@@ -58,6 +58,8 @@
     }
 }
 
+<#
+
 ### Example ###
 
 $UserName = @(
@@ -76,3 +78,5 @@ $UserName | Remove-UserProfile
 
 # Example 4
 $UserName | Remove-UserProfile -ComputerName "RemoteHost"
+
+#>

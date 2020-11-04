@@ -72,6 +72,8 @@
     }
 }
 
+<#
+
 ### Examples ###
 
 # Example 1
@@ -85,3 +87,5 @@ Set-ItemCreationTime -Path "C:\test\folder-1", "C:\test\folder-2" -Day 365 -Recu
  
 # Example 4
 "C:\test\folder-1", "C:\test\folder-2" | Set-ItemCreationTime -Day 90 -Recurse
+
+#>

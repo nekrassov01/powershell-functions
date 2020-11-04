@@ -50,7 +50,7 @@
                 $Obj = New-Object -TypeName PSCustomObject | Select-Object -Property "FullName", "Result"
                 $Obj."FullName" = $_.FullName
 
-                $_ | Remove-Item -Force #-WhatIf
+                $_ | Remove-Item -Force -WhatIf
 
                 If($?)
                 {
@@ -72,6 +72,8 @@
     }
 }
 
+<#
+
 ### Examples ###
 
 # Example 1
@@ -79,3 +81,5 @@ Remove-PastFile -Path "C:\Work\link-1", "C:\Work\link-2" -Day 90
 
 # Example 2
 "C:\Work\link-1", "C:\Work\link-2" | Remove-PastFile -Day 90
+
+#>

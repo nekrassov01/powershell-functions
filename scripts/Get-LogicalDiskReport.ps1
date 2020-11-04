@@ -67,6 +67,8 @@
     }
 }
 
+<#
+
 ### Example ###
 
 $LogicalDisks = @(
@@ -93,3 +95,5 @@ $LogicalDisks = @(
 )
 
 Get-LogicalDiskReport -LogicalDisks $LogicalDisks
+
+#>

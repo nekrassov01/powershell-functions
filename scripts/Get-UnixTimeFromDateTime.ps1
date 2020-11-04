@@ -32,6 +32,8 @@
     }
 }
 
+<#
+
 ### Example ###
 
 $TargetDate = @(
@@ -44,3 +46,5 @@ Get-UnixTimeFromDateTime -TargetDate $TargetDate
 
 # Example 2
 $TargetDate | Get-UnixTimeFromDateTime
+
+#>

@@ -32,6 +32,7 @@
     }
 }
 
+<#
 
 ### Example ###
 
@@ -44,3 +45,5 @@ Get-NTAccountFromSID -Sid $Sid
 
 # Example 2
 $Sid | Get-NTAccountFromSID
+
+#>

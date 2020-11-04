@@ -48,6 +48,8 @@
     }
 }
 
+<#
+
 ### Examples ###
 
 $TargetPSFilePath = @(
@@ -66,3 +68,5 @@ $TargetPSFilePath | Encode-PSFile
 
 # Example 4
 $TargetPSFilePath | Encode-PSFile -DestinationDirectory "D:\output"
+
+#>
