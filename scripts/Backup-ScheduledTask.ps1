@@ -73,8 +73,8 @@
 ### Example ###
 
 $TaskFolder = @(
-    "\Spcc"
-    "\WSL"
+    "\task_1"
+    "\task_2"
 )
 
 # Example 1
