@@ -37,7 +37,7 @@
             $Obj."SID" = $Sid
             
             $Target = Get-WmiObject -ClassName Win32_UserProfile -ComputerName $ComputerName | Where-Object -FilterScript { $_.SID -eq $Sid }
-            $Target | Remove-WmiObject -WhatIf
+            $Target | Remove-WmiObject #-WhatIf
 
             If($?)
             {

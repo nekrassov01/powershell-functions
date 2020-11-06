@@ -10,13 +10,13 @@
             Mandatory = $true
         )]
         [ValidateNotNullOrEmpty()]
-        [string[]]$TargetPSFilePath,
+        [string[]]$Path,
 
         [Parameter(
             Mandatory = $false
         )]
         [ValidateNotNullOrEmpty()]
-        [string]$DestinationDirectory = $PSScriptRoot
+        [string]$Destination = $PSScriptRoot
 
     )
 
@@ -27,18 +27,32 @@
 
     Process
     {
-        Foreach($Target In $TargetPSFilePath)
-        {
-            $FileNameWithoutExtension = [System.IO.Path]::GetFileNameWithoutExtension($Target)
-            $DestinationFilePath = ${DestinationDirectory} + "\" + ${FileNameWithoutExtension} + ".bat"
+        $Path | ForEach-Object -Process {
+
+            $FileNameWithoutExtension = [System.IO.Path]::GetFileNameWithoutExtension($_)
+            $DestinationFilePath = ${Destination} + "\" + ${FileNameWithoutExtension} + ".bat"
+
+            $Obj = New-Object -TypeName PSCustomObject | Select-Object -Property "FullName", "Result"
+            $Obj."FullName" = $DestinationFilePath
+
             $Encode = [System.Text.Encoding]::GetEncoding("utf-16")
             $Output += "@echo off"
             $Output += "`r`n"
             $Output += "PowerShell -NoProfile -ExecutionPolicy Unrestricted -EncodedCommand "
-            $Output += [System.Convert]::ToBase64String($Encode.GetBytes([System.IO.File]::ReadAllText($Target)))
+            $Output += [System.Convert]::ToBase64String($Encode.GetBytes([System.IO.File]::ReadAllText($_)))
             $Output | Out-File -FilePath $DestinationFilePath -Encoding Default
+
+            If($?)
+            {
+                $Obj."Result" = "Success"
+            }
+            Else
+            {
+                $Obj."Result" = "Error"
+            }
+
             $Output = $null
-            $Result += $DestinationFilePath
+            $Result += $Obj
         }
     }
 
@@ -52,21 +66,21 @@
 
 ### Examples ###
 
-$TargetPSFilePath = @(
+$Path = @(
     "C:\test\test-01.ps1"
     "C:\test\test-02.ps1"
 )
 
 # Example 1
-Encode-PSFile -TargetPSFilePath $TargetPSFilePath
+Encode-PSFile -Path $Path
 
 # Example 2
-Encode-PSFile -TargetPSFilePath $TargetPSFilePath -DestinationDirectory "D:\output"
+Encode-PSFile -Path $Path -Destination "D:\output"
 
 # Example 3
-$TargetPSFilePath | Encode-PSFile
+$Path | Encode-PSFile
 
 # Example 4
-$TargetPSFilePath | Encode-PSFile -DestinationDirectory "D:\output"
+$Path | Encode-PSFile -Destination "D:\output"
 
 #>

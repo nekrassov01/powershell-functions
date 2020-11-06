@@ -18,7 +18,7 @@
             Mandatory = $true
         )]
         [ValidateNotNullOrEmpty()]
-        [int]$Day,
+        [string]$DateTime,
 
         [Parameter(
             Mandatory = $false
@@ -50,7 +50,7 @@
                 $Obj = New-Object -TypeName PSCustomObject | Select-Object -Property "FullName", "Result"
                 $Obj."FullName" = $_.FullName
 
-                $_ | Set-ItemProperty -Name LastWriteTime -Value $_.LastWriteTime.AddDays(-$Day)
+                $_ | Set-ItemProperty -Name LastWriteTime -Value $DateTime
             
                 If($?)
                 {

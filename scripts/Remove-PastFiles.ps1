@@ -1,4 +1,4 @@
-﻿Function Remove-PastFile
+﻿Function Remove-PastFiles
 {
     [OutputType([System.Object])]
     [CmdletBinding()]
@@ -45,12 +45,12 @@
                 $Target = Get-ChildItem -Path $_
             }
 
-            $Target | Where-Object -FilterScript { $_.CreationTime -lt (Get-Date).AddDays(-$Days) } | ForEach-Object -Process {
+            $Target | Where-Object -FilterScript { $_.CreationTime -lt (Get-Date).AddDays(-$Day) } | ForEach-Object -Process {
 
                 $Obj = New-Object -TypeName PSCustomObject | Select-Object -Property "FullName", "Result"
                 $Obj."FullName" = $_.FullName
 
-                $_ | Remove-Item -Force -WhatIf
+                $_ | Remove-Item -Force #-WhatIf
 
                 If($?)
                 {
@@ -58,7 +58,7 @@
                 }
                 Else
                 {
-                    $Obj."Result" = "Error"                
+                    $Obj."Result" = "Error"
                 }
 
                 $Result += $Obj
@@ -76,10 +76,15 @@
 
 ### Examples ###
 
+$Directories = @(
+    "C:\Work\link-1"
+    "C:\Work\link-2"
+)
+
 # Example 1
-Remove-PastFile -Path "C:\Work\link-1", "C:\Work\link-2" -Day 90
+Remove-PastFiles -Path $Directories -Day 90
 
 # Example 2
-"C:\Work\link-1", "C:\Work\link-2" | Remove-PastFile -Day 90
+$Directories | Remove-PastFiles -Day 90
 
 #>
