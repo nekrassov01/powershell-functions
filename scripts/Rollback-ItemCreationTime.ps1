@@ -1,4 +1,4 @@
-﻿Function Set-ItemCreationTime
+﻿Function Rollback-ItemCreationTime
 {
     [OutputType([System.Object])]
     [CmdletBinding()]
@@ -18,7 +18,7 @@
             Mandatory = $true
         )]
         [ValidateNotNullOrEmpty()]
-        [string]$DateTime,
+        [string]$RollBackDay,
 
         [Parameter(
             Mandatory = $false
@@ -47,10 +47,15 @@
 
             $Target | ForEach-Object -Process {
 
-                $Obj = New-Object -TypeName PSCustomObject | Select-Object -Property "FullName", "Result"
-                $Obj."FullName" = $_.FullName
+                $AfterRollback = $_.CreationTime.AddDays(-$RollbackDay)
 
-                $_ | Set-ItemProperty -Name CreationTime -Value $DateTime
+                $Obj = New-Object -TypeName PSCustomObject | Select-Object -Property "FullName", "Property", "BeforeRollback", "AfterRollback", "Result"
+                $Obj."FullName" = $_.FullName
+                $Obj."Property" = "CreationTime"
+                $Obj."BeforeRollback" = $_.CreationTime
+                $Obj."AfterRollback" = $AfterRollback
+
+                $_ | Set-ItemProperty -Name CreationTime -Value $AfterRollback
             
                 If($?)
                 {
@@ -76,16 +81,21 @@
 
 ### Examples ###
 
+$Directories = @(
+    "C:\Work\test-1"
+    "C:\Work\test-2"
+)
+
 # Example 1
-Set-ItemCreationTime -Path "C:\test\folder-1", "C:\test\folder-2" -Day 365
+Rollback-ItemCreationTime -Path $Directories -RollbackDay 365
 
 # Example 2
-Set-ItemCreationTime -Path "C:\test\folder-1", "C:\test\folder-2" -Day 365 -Recurse
+Rollback-ItemCreationTime -Path $Directories -RollbackDay 365 -Recurse
 
 # Example 3
-"C:\test\folder-1", "C:\test\folder-2" | Set-ItemCreationTime -Day 90
- 
+$Directories | Rollback-ItemCreationTime -RollbackDay 90
+
 # Example 4
-"C:\test\folder-1", "C:\test\folder-2" | Set-ItemCreationTime -Day 90 -Recurse
+$Directories | Rollback-ItemCreationTime -RollbackDay 90 -Recurse
 
 #>

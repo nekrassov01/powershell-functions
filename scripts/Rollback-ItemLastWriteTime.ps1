@@ -1,4 +1,4 @@
-﻿Function Set-ItemLastWriteTime
+﻿Function Rollback-ItemLastWriteTime
 {
     [OutputType([System.Object])]
     [CmdletBinding()]
@@ -18,7 +18,7 @@
             Mandatory = $true
         )]
         [ValidateNotNullOrEmpty()]
-        [string]$DateTime,
+        [string]$RollBackDay,
 
         [Parameter(
             Mandatory = $false
@@ -47,10 +47,15 @@
 
             $Target | ForEach-Object -Process {
 
-                $Obj = New-Object -TypeName PSCustomObject | Select-Object -Property "FullName", "Result"
-                $Obj."FullName" = $_.FullName
+                $AfterRollback = $_.LastWriteTime.AddDays(-$RollbackDay)
 
-                $_ | Set-ItemProperty -Name LastWriteTime -Value $DateTime
+                $Obj = New-Object -TypeName PSCustomObject | Select-Object -Property "FullName", "Property", "BeforeRollback", "AfterRollback", "Result"
+                $Obj."FullName" = $_.FullName
+                $Obj."Property" = "LastWriteTime"
+                $Obj."BeforeRollback" = $_.LastWriteTime
+                $Obj."AfterRollback" = $AfterRollback
+
+                $_ | Set-ItemProperty -Name LastWriteTime -Value $AfterRollback
             
                 If($?)
                 {
@@ -72,20 +77,23 @@
     }
 }
 
-<#
-
 ### Examples ###
 
-# Example 1
-Set-ItemLastWriteTime -Path "C:\test\folder-1", "C:\test\folder-2" -Day 365
+$Directories = @(
+    "C:\Work\test-1"
+    "C:\Work\test-2"
+)
 
+# Example 1
+Rollback-ItemLastWriteTime -Path $Directories -RollbackDay 365
+<#
 # Example 2
-Set-ItemLastWriteTime -Path "C:\test\folder-1", "C:\test\folder-2" -Day 365 -Recurse
+Rollback-ItemLastWriteTime -Path $Directories -RollbackDay 365 -Recurse
 
 # Example 3
-"C:\test\folder-1", "C:\test\folder-2" | Set-ItemLastWriteTime -Day 90
+$Directories | Rollback-ItemLastWriteTime -RollbackDay 90
  
 # Example 4
-"C:\test\folder-1", "C:\test\folder-2" | Set-ItemLastWriteTime -Day 90 -Recurse
+$Directories | Rollback-ItemLastWriteTime -RollbackDay 90 -Recurse
 
 #>
