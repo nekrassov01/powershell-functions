@@ -67,8 +67,7 @@
             $FilterHashTable.Add("Id", $EventId)
         }
 
-        Get-WinEvent -ComputerName $ComputerName -FilterHashTable $FilterHashTable | 
-        ForEach-Object -Process {
+        Get-WinEvent -ComputerName $ComputerName -FilterHashTable $FilterHashTable | ForEach-Object -Process {
             $Columns = @("Index","ComputerName","LogName","LevelId","Level","EventId","Date","Time","Source","Keyword","Opcode","Task","User","Sid","Message")
             $Obj = New-Object -TypeName PSCustomObject | Select-Object $Columns
 
