@@ -66,8 +66,6 @@
             $FilterHashTable.Add("Id", $EventId)
         }
 
-        $DomainCheck = (Get-WmiObject -Class Win32_ComputerSystem).PartOfDomain
-
         Get-WinEvent -ComputerName $ComputerName -FilterHashTable $FilterHashTable | ForEach-Object -Process {
             $Columns = @("ComputerName","LogName","LevelId","Level","EventId","Date","Time","Source","Keyword","Opcode","Task","User","Sid","Message")
             $Obj = New-Object -TypeName PSCustomObject | Select-Object $Columns
