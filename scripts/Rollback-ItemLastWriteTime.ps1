@@ -77,6 +77,8 @@
     }
 }
 
+<#
+
 ### Examples ###
 
 $Directories = @(
@@ -86,7 +88,7 @@ $Directories = @(
 
 # Example 1
 Rollback-ItemLastWriteTime -Path $Directories -RollbackDay 365
-<#
+
 # Example 2
 Rollback-ItemLastWriteTime -Path $Directories -RollbackDay 365 -Recurse
 
