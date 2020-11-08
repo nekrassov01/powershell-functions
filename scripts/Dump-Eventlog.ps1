@@ -51,7 +51,6 @@
     Begin
     {
         $Result = New-Object -TypeName System.Collections.ArrayList
-        $Index = 1
     }
 
     Process
@@ -67,11 +66,12 @@
             $FilterHashTable.Add("Id", $EventId)
         }
 
+        $DomainCheck = (Get-WmiObject -Class Win32_ComputerSystem).PartOfDomain
+
         Get-WinEvent -ComputerName $ComputerName -FilterHashTable $FilterHashTable | ForEach-Object -Process {
-            $Columns = @("Index","ComputerName","LogName","LevelId","Level","EventId","Date","Time","Source","Keyword","Opcode","Task","User","Sid","Message")
+            $Columns = @("ComputerName","LogName","LevelId","Level","EventId","Date","Time","Source","Keyword","Opcode","Task","User","Sid","Message")
             $Obj = New-Object -TypeName PSCustomObject | Select-Object $Columns
 
-            $Obj."Index"        = $Index.ToString("00000")
             $Obj."ComputerName" = If($Null -ne $_.MachineName        ){[string]$_.MachineName}
             $Obj."LogName"      = If($Null -ne $_.LogName            ){[string]$_.LogName}
             $Obj."LevelId"      = If($Null -ne $_.Level              ){[string]$_.Level}
@@ -83,12 +83,11 @@
             $Obj."Keyword"      = If($Null -ne $_.KeywordsDisplayName){[string]$_.KeywordsDisplayName}
             $Obj."Opcode"       = If($Null -ne $_.OpcodeDisplayName  ){[string]$_.OpcodeDisplayName}
             $Obj."Task"         = If($Null -ne $_.TaskDisplayName    ){[string]$_.TaskDisplayName}
-            $Obj."User"         = If($Null -ne $_.UserId             ){[string]$_.UserId.Translate([System.Security.Principal.NTAccount]).Value}
+            $Obj."User"         = If($Null -ne $_.UserId             ){Try{[string]$_.UserId.Translate([System.Security.Principal.NTAccount]).Value}Catch{}}
             $Obj."Sid"          = If($Null -ne $_.UserId             ){[string]$_.UserId}
             $Obj."Message"      = If($Null -ne $_.Message            ){[string]$_.Message.Replace("`r`n","`n").Replace("`r","`n").Replace("`n"," ").Replace("`t"," ")}
 
             $Result += $Obj
-            $Index ++
         }
     }
 
@@ -104,7 +103,7 @@
 
 # Example 1
 $Params1 = @{
-    ComputerName = "localhost"
+    ComputerName = "k04"
     LogName      = "System", "Application"
     Level        = 1,2,3
     Recently     = 24*7

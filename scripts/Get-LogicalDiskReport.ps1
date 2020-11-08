@@ -31,14 +31,13 @@
             Get-WmiObject -Class Win32_LogicalDisk -ComputerName $ComputerName | 
             Where-Object -FilterScript { $_.DeviceId -eq $DeviceId } |
             ForEach-Object -Process {
-                $Columns = "Index","Date","ComputerName","DeviceId",
+                $Columns = "Date","ComputerName","DeviceId",
                            "Total(MB)","Free(MB)","Used(MB)",
                            "Total(GB)","Free(GB)","Used(GB)",
                            "Total(TB)","Free(TB)","Used(TB)",
                            "Percentage","Threshold","State"
                 $Obj = New-Object -TypeName PSCustomObject | Select-Object $Columns
 
-                $Obj."Index"        = $Index.ToString("00000")
                 $Obj."Date"         = $Date
                 $Obj."ComputerName" = $_.PSComputerName
                 $Obj."DeviceId"     = $_.DeviceId
@@ -56,7 +55,6 @@
                 $Obj."State"        = If($Obj."Percentage" -ge $Obj."Threshold"){"Warning"}Else{"Normal"}
 
                 $Result += $Obj
-                $Index ++
             }
         }
     }
