@@ -123,7 +123,7 @@
 
 # Example 1
 $Params1 = @{
-    ComputerName = "k04"
+    ComputerName = "localhost"
     LogName      = "System", "Application"
     Level        = 1,2,3
     Recently     = 24*7
