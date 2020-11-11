@@ -70,10 +70,6 @@
             $Columns = @("ComputerName","LogName","LevelId","Level","EventId","Date","Time","Source","Keyword","Opcode","Task","User","Sid","Message")
             $Obj = New-Object -TypeName PSCustomObject | Select-Object $Columns
 
-            $UserId = $_.UserId
-
-
-
             $Obj."ComputerName" = If($Null -ne $_.MachineName        ){[string]$_.MachineName}
             $Obj."LogName"      = If($Null -ne $_.LogName            ){[string]$_.LogName}
             $Obj."LevelId"      = If($Null -ne $_.Level              ){[string]$_.Level}
@@ -87,6 +83,9 @@
             $Obj."Task"         = If($Null -ne $_.TaskDisplayName    ){[string]$_.TaskDisplayName}
             $Obj."User"         = If($Null -ne $_.UserId             )
             {
+
+                $UserId = $_.UserId
+
                 Try
                 {
                     [string]$_.UserId.Translate([System.Security.Principal.NTAccount]).Value
@@ -95,7 +94,14 @@
                 {
                     # RPC経由でリモート先のローカルユーザー名をSIDから解決したい場合、
                     # RPC通信の中でもう1回RPC通信が発生
-                    (Get-WmiObject -Class Win32_UserAccount -ComputerName $ComputerName | Where-Object -FilterScript { $_.SID -eq $UserId }).Caption
+                    Try
+                    {
+                        (Get-WmiObject -Class Win32_UserAccount -ComputerName $ComputerName | Where-Object -FilterScript { $_.SID -eq $UserId }).Caption
+                    }
+                    Catch
+                    {
+                        $UserId
+                    }
                 }
             }
             $Obj."Sid"          = If($Null -ne $_.UserId             ){[string]$_.UserId}
