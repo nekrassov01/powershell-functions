@@ -81,29 +81,7 @@
             $Obj."Keyword"      = If($Null -ne $_.KeywordsDisplayName){[string]$_.KeywordsDisplayName}
             $Obj."Opcode"       = If($Null -ne $_.OpcodeDisplayName  ){[string]$_.OpcodeDisplayName}
             $Obj."Task"         = If($Null -ne $_.TaskDisplayName    ){[string]$_.TaskDisplayName}
-            $Obj."User"         = If($Null -ne $_.UserId             )
-            {
-
-                $UserId = $_.UserId
-
-                Try
-                {
-                    [string]$_.UserId.Translate([System.Security.Principal.NTAccount]).Value
-                }
-                Catch
-                {
-                    # RPC経由でリモート先のローカルユーザー名をSIDから解決したい場合、
-                    # RPC通信の中でもう1回RPC通信が発生
-                    Try
-                    {
-                        (Get-WmiObject -Class Win32_UserAccount -ComputerName $ComputerName | Where-Object -FilterScript { $_.SID -eq $UserId }).Caption
-                    }
-                    Catch
-                    {
-                        $UserId
-                    }
-                }
-            }
+            $Obj."User"         = If($Null -ne $_.UserId             ){Try{[string]$_.UserId.Translate([System.Security.Principal.NTAccount]).Value}Catch{}}
             $Obj."Sid"          = If($Null -ne $_.UserId             ){[string]$_.UserId}
             $Obj."Message"      = If($Null -ne $_.Message            ){[string]$_.Message.Replace("`r`n","`n").Replace("`r","`n").Replace("`n"," ").Replace("`t"," ")}
 
