@@ -135,5 +135,3 @@ $Params4 = @{
 "System", "Application" | Dump-Eventlog @Params4
 
 #>
-
-Dump-Eventlog @Params1 | Out-GridView
