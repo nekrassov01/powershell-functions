@@ -1,4 +1,4 @@
-﻿Function Remove-PastFiles
+﻿Function Remove-PastItem
 {
     [OutputType([System.Object])]
     [CmdletBinding()]
@@ -56,7 +56,7 @@
                 $Obj."FullName" = $_.FullName
                 $Obj."Property" = $Property
 
-                $_ | Remove-Item -Force -Recurse #-WhatIf
+                $_ | Remove-Item -Force -Recurse -WhatIf
 
                 If($?)
                 {
@@ -88,21 +88,21 @@ $Directories = @(
 )
 
 # Example 1
-Remove-PastFiles -Path $Directories -Day 90
+Remove-PastItem -Path $Directories -Day 90
 
 # Example 2
-$Directories | Remove-PastFiles -Day 90
+$Directories | Remove-PastItem -Day 90
 
 # Example 3
-Remove-PastFiles -Path $Directories -Day 90 -Property CreationTime
+Remove-PastItem -Path $Directories -Day 90 -Property CreationTime
 
 # Example 4
-$Directories | Remove-PastFiles -Day 90 -Property CreationTime
+$Directories | Remove-PastItem -Day 90 -Property CreationTime
 
 # Example 5
-Remove-PastFiles -Path $Directories -Day 90 -Property LastWriteTime
+Remove-PastItem -Path $Directories -Day 90 -Property LastWriteTime
 
 # Example 6
-$Directories | Remove-PastFiles -Day 90 -Property LastWriteTime
+$Directories | Remove-PastItem -Day 90 -Property LastWriteTime
 
 #>
