@@ -81,7 +81,7 @@
             $Obj."Keyword"      = If($Null -ne $_.KeywordsDisplayName){[string]$_.KeywordsDisplayName}
             $Obj."Opcode"       = If($Null -ne $_.OpcodeDisplayName  ){[string]$_.OpcodeDisplayName}
             $Obj."Task"         = If($Null -ne $_.TaskDisplayName    ){[string]$_.TaskDisplayName}
-            $Obj."User"         = If($Null -ne $_.UserId             ){Try{[string]$_.UserId.Translate([System.Security.Principal.NTAccount]).Value}Catch{}}
+            $Obj."User"         = If($Null -ne $_.UserId             ){Try{[string]$_.UserId.Translate([System.Security.Principal.NTAccount])}Catch{}}
             $Obj."Sid"          = If($Null -ne $_.UserId             ){[string]$_.UserId}
             $Obj."Message"      = If($Null -ne $_.Message            ){[string]$_.Message.Replace("`r`n","`n").Replace("`r","`n").Replace("`n"," ").Replace("`t"," ")}
 
@@ -135,3 +135,5 @@ $Params4 = @{
 "System", "Application" | Dump-Eventlog @Params4
 
 #>
+
+Dump-Eventlog @Params1 | Out-GridView

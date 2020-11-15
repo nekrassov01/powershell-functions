@@ -83,8 +83,8 @@
 ### Examples ###
 
 $Directories = @(
-    "C:\Work\link-1"
-    "C:\Work\link-2"
+    "C:\Work\test-1"
+    "C:\Work\test-2"
 )
 
 # Example 1
