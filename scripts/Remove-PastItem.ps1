@@ -43,11 +43,11 @@
 
             If($Property -eq "LastWriteTime")
             {
-                $Target = $Target | Where-Object -FilterScript { $_.LastWriteTime -lt (Get-Date).AddDays(-$Day) }
+                $Target = $Target | Where-Object -FilterScript { $_.LastWriteTime -le (Get-Date).AddDays(-$Day) }
             }
             Else
             {
-                $Target = $Target | Where-Object -FilterScript { $_.CreationTime -lt (Get-Date).AddDays(-$Day) }
+                $Target = $Target | Where-Object -FilterScript { $_.CreationTime -le (Get-Date).AddDays(-$Day) }
             }
 
             $Target | ForEach-Object -Process {
