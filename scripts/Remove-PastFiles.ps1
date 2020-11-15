@@ -23,8 +23,11 @@
         [Parameter(
             Mandatory = $false
         )]
-        [ValidateNotNullOrEmpty()]
-        [switch]$Recurse
+        [ValidateSet(
+            "CreationTime",
+            "LastWriteTime"
+        )]
+        [string]$Property = "CreationTime"
     )
 
     Begin
@@ -36,21 +39,24 @@
     {
         $Path | ForEach-Object -Process {
 
-            If($Recurse)
+            $Target = Get-ChildItem -Path $_ -Recurse            
+
+            If($Property -eq "LastWriteTime")
             {
-                $Target = Get-ChildItem -Path $_ -Recurse
+                $Target = $Target | Where-Object -FilterScript { $_.LastWriteTime -lt (Get-Date).AddDays(-$Day) }
             }
             Else
             {
-                $Target = Get-ChildItem -Path $_
+                $Target = $Target | Where-Object -FilterScript { $_.CreationTime -lt (Get-Date).AddDays(-$Day) }
             }
 
-            $Target | Where-Object -FilterScript { $_.CreationTime -lt (Get-Date).AddDays(-$Day) } | ForEach-Object -Process {
+            $Target | ForEach-Object -Process {
 
-                $Obj = New-Object -TypeName PSCustomObject | Select-Object -Property "FullName", "Result"
+                $Obj = New-Object -TypeName PSCustomObject | Select-Object -Property "FullName", "Property", "Result"
                 $Obj."FullName" = $_.FullName
+                $Obj."Property" = $Property
 
-                $_ | Remove-Item -Force #-WhatIf
+                $_ | Remove-Item -Force -Recurse #-WhatIf
 
                 If($?)
                 {
@@ -86,5 +92,17 @@ Remove-PastFiles -Path $Directories -Day 90
 
 # Example 2
 $Directories | Remove-PastFiles -Day 90
+
+# Example 3
+Remove-PastFiles -Path $Directories -Day 90 -Property CreationTime
+
+# Example 4
+$Directories | Remove-PastFiles -Day 90 -Property CreationTime
+
+# Example 5
+Remove-PastFiles -Path $Directories -Day 90 -Property LastWriteTime
+
+# Example 6
+$Directories | Remove-PastFiles -Day 90 -Property LastWriteTime
 
 #>

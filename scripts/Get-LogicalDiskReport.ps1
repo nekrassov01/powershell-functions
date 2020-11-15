@@ -17,7 +17,6 @@
     {
         $Result = New-Object -TypeName System.Collections.ArrayList
         $Date = (Get-Date).ToString("yyyy-MM-dd")
-        $Index = 1
     }
 
     Process
