@@ -1,5 +1,6 @@
-﻿<#
+﻿### Requires -Version 5.1 ###
 
+<#
 .Synopsis
 Optimize Windows Eventlog for CSV format
 
@@ -27,7 +28,6 @@ $Params = @{ ComputerName = "localhost"; Level = 1,2,3; Recently = 24 }
 
 .NOTES
 Author: nekrassov01
-
 #>
 
 Function Backup-Eventlog

@@ -1,5 +1,6 @@
-﻿<#
+﻿### Requires -Version 5.1 ###
 
+<#
 .Synopsis
 Encode PS1 to Base64, and Convert It to BAT
 
@@ -20,7 +21,6 @@ Convert-PSFile -Path "C:\test\test-01.ps1", "C:\test\test-02.ps1" -Destination "
 
 .NOTES
 Author: nekrassov01
-
 #>
 
 Function Convert-PSFile

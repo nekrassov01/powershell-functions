@@ -1,5 +1,6 @@
-﻿<#
+﻿### Requires -Version 5.1 ###
 
+<#
 .Synopsis
 Delete Old Folders and Files
 
@@ -27,7 +28,6 @@ Remove-PastItem -Path "C:\Work\test-1", "C:\Work\test-2" -Day 90 -Property LastW
 
 .NOTES
 Author: nekrassov01
-
 #>
 
 Function Remove-PastItem

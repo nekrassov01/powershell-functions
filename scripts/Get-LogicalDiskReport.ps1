@@ -1,5 +1,6 @@
-﻿<#
+﻿### Requires -Version 5.1 ###
 
+<#
 .Synopsis
 Get a Report of Logical Disks from WMI Class: Win32_LogicalDisk
 
@@ -38,7 +39,6 @@ Get-LogicalDiskReport -LogicalDisks $LogicalDisks
 
 .NOTES
 Author: nekrassov01
-
 #>
 
 Function Get-LogicalDiskReport

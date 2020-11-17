@@ -1,5 +1,6 @@
-﻿<#
+﻿### Requires -Version 5.1 ###
 
+<#
 .Synopsis
 Delete UserProfiles with WMI Class: Win32_UserProfile
 
@@ -20,7 +21,6 @@ Remove-UserProfile -UserName "User-01", "User-02" -ComputerName "RemoteHost"
 
 .NOTES
 Author: nekrassov01
-
 #>
 
 Function Remove-UserProfile

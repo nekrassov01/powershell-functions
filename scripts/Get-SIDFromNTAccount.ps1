@@ -1,5 +1,6 @@
-﻿<#
+﻿### Requires -Version 5.1 ###
 
+<#
 .Synopsis
 Convert NTAccount to SID
 
@@ -14,7 +15,6 @@ Get-SIDFromNTAccount -NTAccount "$env:COMPUTERNAME\User-01", "$env:USERDOMAIN\Us
 
 .NOTES
 Author: nekrassov01
-
 #>
 
 Function Get-SIDFromNTAccount

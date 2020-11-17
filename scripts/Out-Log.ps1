@@ -1,5 +1,6 @@
-<#
+### Requires -Version 5.1 ###
 
+<#
 .Synopsis
 Display DateTime on the Console Output
 
@@ -14,7 +15,6 @@ Out-Log "test"
 
 .NOTES
 Author: nekrassov01
-
 #>
 
 Function Out-Log

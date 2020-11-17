@@ -1,5 +1,6 @@
-﻿<#
+﻿### Requires -Version 5.1 ###
 
+<#
 .Synopsis
 Backup MSFT_ScheduledTask in XML Format
 
@@ -26,7 +27,6 @@ Backup-ScheduledTask -TaskFolder "\task_1", "\task_2" -ComputerName RemoteHost -
 
 .NOTES
 Author: nekrassov01
-
 #>
 
 Function Backup-ScheduledTask

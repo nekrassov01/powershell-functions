@@ -1,5 +1,6 @@
-﻿<#
+﻿### Requires -Version 5.1 ###
 
+<#
 .Synopsis
 Convert SID to NTAccount
 
@@ -14,7 +15,6 @@ Get-NTAccountFromSID -Sid "S-1-5-21-000000000-1111111111-222222222-500", "S-1-5-
 
 .NOTES
 Author: nekrassov01
-
 #>
 
 Function Get-NTAccountFromSID

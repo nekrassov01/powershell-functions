@@ -1,5 +1,6 @@
-﻿<#
+﻿### Requires -Version 5.1 ###
 
+<#
 .Synopsis
 Convert DateTime to UnixTime
 
@@ -14,7 +15,6 @@ Get-UnixTimeFromDateTime -TargetTime "2020/10/01 0:0:0", "2020/11/01 0:0:0"
 
 .NOTES
 Author: nekrassov01
-
 #>
 
 Function Get-UnixTimeFromDateTime

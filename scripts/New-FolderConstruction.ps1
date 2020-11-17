@@ -1,5 +1,6 @@
-﻿<#
+﻿### Requires -Version 5.1 ###
 
+<#
 .Synopsis
 Build Directory structure
 
@@ -14,7 +15,6 @@ New-FolderConstruction -Path "folder-1", "folder-2" -Root "C:\Work"
 
 .NOTES
 Author: nekrassov01
-
 #>
 
 Function New-FolderConstruction

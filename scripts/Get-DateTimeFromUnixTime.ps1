@@ -1,5 +1,6 @@
-﻿<#
+﻿### Requires -Version 5.1 ###
 
+<#
 .Synopsis
 Convert UnixTime to DateTime
 
@@ -14,7 +15,6 @@ Get-DateTimeFromUnixTime -TargetTime 1601478000, 1604156400
 
 .NOTES
 Author: nekrassov01
-
 #>
 
 Function Get-DateTimeFromUnixTime

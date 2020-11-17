@@ -1,5 +1,6 @@
-﻿<#
+﻿### Requires -Version 5.1 ###
 
+<#
 .Synopsis
 Rollback the CreationTime of Folders and Files
 
@@ -20,7 +21,6 @@ Reset-ItemCreationTime -Path "C:\test\test-01.ps1", "C:\test\test-02.ps1" -Rollb
 
 .NOTES
 Author: nekrassov01
-
 #>
 
 Function Reset-ItemCreationTime
