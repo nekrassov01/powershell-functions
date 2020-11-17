@@ -1,7 +1,39 @@
-﻿Function Remove-PastItem
+﻿<#
+
+.Synopsis
+Delete Old Folders and Files
+
+.DESCRIPTION
+Delete Old Folders and Files:
+ - Select Property "CreationTime" or "LastWriteTime"
+
+.EXAMPLE
+Remove-PastItem -Path "C:\Work\test-1", "C:\Work\test-2" -Day 90
+
+.EXAMPLE
+"C:\Work\test-1", "C:\Work\test-2" | Remove-PastItem -Day 90
+
+.EXAMPLE
+Remove-PastItem -Path "C:\Work\test-1", "C:\Work\test-2" -Day 90 -Property CreationTime
+
+.EXAMPLE
+"C:\Work\test-1", "C:\Work\test-2" | Remove-PastItem -Day 90 -Property CreationTime
+
+.EXAMPLE
+Remove-PastItem -Path "C:\Work\test-1", "C:\Work\test-2" -Day 90 -Property LastWriteTime
+
+.EXAMPLE
+"C:\Work\test-1", "C:\Work\test-2" | Remove-PastItem -Day 90 -Property LastWriteTime
+
+.NOTES
+Author: nekrassov01
+
+#>
+
+Function Remove-PastItem
 {
     [OutputType([System.Object])]
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     Param
     (
         [Parameter(
@@ -56,7 +88,7 @@
                 $Obj."FullName" = $_.FullName
                 $Obj."Property" = $Property
 
-                $_ | Remove-Item -Force -Recurse -WhatIf
+                $_ | Remove-Item -Force -Recurse
 
                 If($?)
                 {
@@ -77,32 +109,3 @@
         return $Result
     }
 }
-
-<#
-
-### Examples ###
-
-$Directories = @(
-    "C:\Work\test-1"
-    "C:\Work\test-2"
-)
-
-# Example 1
-Remove-PastItem -Path $Directories -Day 90
-
-# Example 2
-$Directories | Remove-PastItem -Day 90
-
-# Example 3
-Remove-PastItem -Path $Directories -Day 90 -Property CreationTime
-
-# Example 4
-$Directories | Remove-PastItem -Day 90 -Property CreationTime
-
-# Example 5
-Remove-PastItem -Path $Directories -Day 90 -Property LastWriteTime
-
-# Example 6
-$Directories | Remove-PastItem -Day 90 -Property LastWriteTime
-
-#>

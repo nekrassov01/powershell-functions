@@ -1,1 +1,4 @@
-Get-LogicalDiskReport-CIM.ps1
+*/backup/
+*/data/
+*/log/
+*/report/

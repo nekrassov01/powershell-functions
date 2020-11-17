@@ -1,7 +1,32 @@
-﻿Function Remove-UserProfile
+﻿<#
+
+.Synopsis
+Delete UserProfiles with WMI Class: Win32_UserProfile
+
+.DESCRIPTION
+Delete UserProfiles with WMI Class: Win32_UserProfile
+
+.EXAMPLE
+Remove-UserProfile -UserName "User-01", "User-02"
+
+.EXAMPLE
+Remove-UserProfile -UserName "User-01", "User-02" -ComputerName "RemoteHost"
+
+.EXAMPLE
+"User-01", "User-02" | Remove-UserProfile
+
+.EXAMPLE
+"User-01", "User-02" | Remove-UserProfile -ComputerName "RemoteHost"
+
+.NOTES
+Author: nekrassov01
+
+#>
+
+Function Remove-UserProfile
 {
     [OutputType([System.String])]
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     Param
     (
         [Parameter(
@@ -37,7 +62,7 @@
             $Obj."SID" = $Sid
             
             $Target = Get-WmiObject -ClassName Win32_UserProfile -ComputerName $ComputerName | Where-Object -FilterScript { $_.SID -eq $Sid }
-            $Target | Remove-WmiObject #-WhatIf
+            $Target | Remove-WmiObject
 
             If($?)
             {
@@ -57,26 +82,3 @@
         return $Result
     }
 }
-
-<#
-
-### Example ###
-
-$UserName = @(
-    "User-01"
-    "User-02"
-)
-
-# Example 1
-Remove-UserProfile -UserName $UserName
-
-# Example 2
-Remove-UserProfile -UserName $UserName -ComputerName "RemoteHost"
-
-# Example 3
-$UserName | Remove-UserProfile
-
-# Example 4
-$UserName | Remove-UserProfile -ComputerName "RemoteHost"
-
-#>

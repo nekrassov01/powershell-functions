@@ -1,4 +1,23 @@
-﻿Function Get-NTAccountFromSID
+﻿<#
+
+.Synopsis
+Convert SID to NTAccount
+
+.DESCRIPTION
+Convert SID to NTAccount
+
+.EXAMPLE
+Get-NTAccountFromSID -Sid "S-1-5-21-000000000-1111111111-222222222-500", "S-1-5-21-000000000-1111111111-222222222-1000"
+
+.EXAMPLE
+"S-1-5-21-000000000-1111111111-222222222-500", "S-1-5-21-000000000-1111111111-222222222-1000" | Get-NTAccountFromSID
+
+.NOTES
+Author: nekrassov01
+
+#>
+
+Function Get-NTAccountFromSID
 {
     [OutputType([System.String])]
     [CmdletBinding()]
@@ -31,19 +50,3 @@
         return $Result
     }
 }
-
-<#
-
-### Example ###
-
-$Sid = @(
-    "S-1-5-21-000000000-1111111111-222222222-500"
-    "S-1-5-21-000000000-1111111111-222222222-1000"
-
-# Example 1
-Get-NTAccountFromSID -Sid $Sid
-
-# Example 2
-$Sid | Get-NTAccountFromSID
-
-#>

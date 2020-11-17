@@ -1,4 +1,47 @@
-﻿Function Get-LogicalDiskReport
+﻿<#
+
+.Synopsis
+Get a Report of Logical Disks from WMI Class: Win32_LogicalDisk
+
+.DESCRIPTION
+Get a Report of Logical Disks from WMI Class: Win32_LogicalDisk
+ - Get TotalSpace, FreeSpace, and UsedSpace in each Unit of MB, GB, TB
+ - You Can Check If UsedSpace Exceeds Threshold
+
+.EXAMPLE
+$LogicalDisks = @(
+
+@{
+    ComputerName = "RemoteHost01"
+    DeviceId = "C:"
+    Threshold = 60
+}
+@{
+    ComputerName = "RemoteHost01"
+    DeviceId = "D:"
+    Threshold = 70
+}
+@{
+    ComputerName = "RemoteHost02"
+    DeviceId = "C:"
+    Threshold = 80
+}
+@{
+    ComputerName = "RemoteHost02"
+    DeviceId = "D:"
+    Threshold = 90
+}
+
+)
+
+Get-LogicalDiskReport -LogicalDisks $LogicalDisks
+
+.NOTES
+Author: nekrassov01
+
+#>
+
+Function Get-LogicalDiskReport
 {
     [OutputType([System.Object])]
     [CmdletBinding()]
@@ -63,34 +106,3 @@
         return $Result
     }
 }
-
-<#
-
-### Example ###
-
-$LogicalDisks = @(
-    @{
-        ComputerName = "RemoteHost01"
-        DeviceId     = "C:"
-        Threshold    = 60
-    }
-    @{
-        ComputerName = "RemoteHost01"
-        DeviceId     = "D:"
-        Threshold    = 70
-    }
-    @{
-        ComputerName = "RemoteHost02"
-        DeviceId     = "C:"
-        Threshold    = 80
-    }
-    @{
-        ComputerName = "RemoteHost02"
-        DeviceId     = "D:"
-        Threshold    = 90
-    }
-)
-
-Get-LogicalDiskReport -LogicalDisks $LogicalDisks
-
-#>

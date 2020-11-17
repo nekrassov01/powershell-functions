@@ -1,7 +1,26 @@
-﻿Function New-FolderConstruction
+﻿<#
+
+.Synopsis
+Build Directory structure
+
+.DESCRIPTION
+Build Directory structure
+
+.EXAMPLE
+New-FolderConstruction -Path "folder-1", "folder-2" -Root "C:\Work"
+
+.EXAMPLE
+"folder-1", "folder-2" | New-FolderConstruction -Root "C:\Work"
+
+.NOTES
+Author: nekrassov01
+
+#>
+
+Function New-FolderConstruction
 {
     [OutputType([System.IO.FileInfo])]
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     Param
     (
         [Parameter(
@@ -52,20 +71,3 @@
         return $Result
     }
 }
-
-<#
-
-### Example ###
-
-$Directories = @(
-    "folder-1"
-    "folder-2"
-)
-
-# Example 1
-New-FolderConstruction -Path $Directories -Root "C:\Work"
-
-# Example 2
-$Directories | New-FolderConstruction -Root "C:\Work"
-
-#>

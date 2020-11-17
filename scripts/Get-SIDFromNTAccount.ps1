@@ -1,4 +1,23 @@
-﻿Function Get-SIDFromNTAccount
+﻿<#
+
+.Synopsis
+Convert NTAccount to SID
+
+.DESCRIPTION
+Convert NTAccount to SID
+
+.EXAMPLE
+Get-SIDFromNTAccount -NTAccount "$env:COMPUTERNAME\User-01", "$env:USERDOMAIN\User-02"
+
+.EXAMPLE
+"$env:COMPUTERNAME\User-01", "$env:USERDOMAIN\User-02" | Get-SIDFromNTAccount
+
+.NOTES
+Author: nekrassov01
+
+#>
+
+Function Get-SIDFromNTAccount
 {
     [OutputType([System.String])]
     [CmdletBinding()]
@@ -31,20 +50,3 @@
         return $Result
     }
 }
-
-<#
-
-### Example ###
-
-$NTAccount = @(
-    "$env:COMPUTERNAME\User-01"
-    "$env:USERDOMAIN\User-02"
-)
-
-# Example 1
-Get-SIDFromNTAccount -NTAccount $NTAccount
-
-# Example 2
-$NTAccount | Get-SIDFromNTAccount
-
-#>

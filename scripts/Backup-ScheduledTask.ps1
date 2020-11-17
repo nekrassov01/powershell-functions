@@ -1,4 +1,35 @@
-﻿Function Backup-ScheduledTask
+﻿<#
+
+.Synopsis
+Backup MSFT_ScheduledTask in XML Format
+
+.DESCRIPTION
+Backup MSFT_ScheduledTask in XML Format
+
+.EXAMPLE
+Backup-ScheduledTask -TaskFolder "\task_1", "\task_2"
+
+.EXAMPLE
+Backup-ScheduledTask -TaskFolder "\task_1", "\task_2" -ComputerName RemoteHost
+
+.EXAMPLE
+Backup-ScheduledTask -TaskFolder "\task_1", "\task_2" -ComputerName RemoteHost -Destination C:\temp
+
+.EXAMPLE
+ "\task_1", "\task_2" | Backup-ScheduledTask
+
+.EXAMPLE
+ "\task_1", "\task_2" | Backup-ScheduledTask -ComputerName RemoteHost
+
+.EXAMPLE
+ "\task_1", "\task_2" | Backup-ScheduledTask -ComputerName RemoteHost -Destination C:\temp
+
+.NOTES
+Author: nekrassov01
+
+#>
+
+Function Backup-ScheduledTask
 {
     [OutputType([System.Object])]
     [CmdletBinding()]
@@ -67,32 +98,3 @@
         return $Result
     }
 }
-
-<#
-
-### Example ###
-
-$TaskFolder = @(
-    "\task_1"
-    "\task_2"
-)
-
-# Example 1
-Backup-ScheduledTask -TaskFolder $TaskFolder
-
-# Example 2
-Backup-ScheduledTask -TaskFolder $TaskFolder -ComputerName RemoteHost
-
-# Example 3
-Backup-ScheduledTask -TaskFolder $TaskFolder -ComputerName RemoteHost -Destination C:\temp
-
-# Example 4
-$TaskFolder | Backup-ScheduledTask
-
-# Example 5
-$TaskFolder | Backup-ScheduledTask -ComputerName RemoteHost
-
-# Example 6
-$TaskFolder | Backup-ScheduledTask -ComputerName RemoteHost -Destination C:\temp
-
-#>

@@ -1,7 +1,26 @@
-﻿Function Rename-Bulk
+﻿<#
+
+.Synopsis
+Batch Replace Filename String
+
+.DESCRIPTION
+Batch Replace Filename String
+
+.EXAMPLE
+Rename-Bulk -Path "C:\Work\test-1","C:\Work\test-2" -TargetString "_" -NewString "-"
+
+.EXAMPLE
+"C:\Work\test-1","C:\Work\test-2" | Rename-Bulk  -TargetString "_" -NewString "-"
+
+.NOTES
+Author: nekrassov01
+
+#>
+
+Function Rename-Bulk
 {
     [OutputType([System.Object])]
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     Param
     (
         [Parameter(
@@ -21,7 +40,7 @@
         [Parameter(
             Mandatory = $true
         )]
-        [ValidateNotNullOrEmpty()]
+        [AllowEmptyString()]
         [string]$NewString
     )
 
@@ -42,9 +61,8 @@
 
                 $Obj = New-Object -TypeName PSCustomObject | Select-Object -Property "Name", "NewName", "Result"
                 $Obj."Name" = $_.FullName
-                $Obj."NewName" = $NewName
-
-                $Check = $_.FullName -eq $NewName
+                
+                $Check = $_.FullName -eq $NewName -or $null -eq $NewString
 
                 If( -not $Check)
                 {
@@ -55,15 +73,18 @@
                 {
                     If($Check)
                     {
+                        $Obj."NewName" = $_.FullName
                         $Obj."Result" = "Skip"
                     }
                     Else
                     {
+                        $Obj."NewName" = $NewName
                         $Obj."Result" = "Success"
                     }
                 }
                 Else
                 {
+                    $Obj."NewName" = $_.FullName
                     $Obj."Result" = "Error"
                 }
 
@@ -77,20 +98,3 @@
         return $Result
     }
 }
-
-<#
-
-### Example ###
-
-$Directories = @(
-    "C:\Work\test-1"
-    "C:\Work\test-2"
-)
-
-# Example 1
-Rename-Bulk -Path $Directories -TargetString "_" -NewString "-"
-
-# Example 2
-$Directories | Rename-Bulk  -TargetString "_" -NewString "-"
-
-#>

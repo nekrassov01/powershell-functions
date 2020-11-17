@@ -1,4 +1,23 @@
-﻿Function Get-DateTimeFromUnixTime
+﻿<#
+
+.Synopsis
+Convert UnixTime to DateTime
+
+.DESCRIPTION
+Convert UnixTime to DateTime
+
+.EXAMPLE
+Get-DateTimeFromUnixTime -TargetTime 1601478000, 1604156400
+
+.EXAMPLE
+1601478000, 1604156400 | Get-DateTimeFromUnixTime
+
+.NOTES
+Author: nekrassov01
+
+#>
+
+Function Get-DateTimeFromUnixTime
 {
     [OutputType([System.DateTime])]
     [CmdletBinding()]
@@ -31,20 +50,3 @@
         return $Result
     }
 }
-
-<#
-
-### Example ###
-
-$TargetTime = @(
-    1601478000
-    1604156400
-)
-
-# Example 1
-Get-DateTimeFromUnixTime -TargetTime $TargetTime
-
-# Example 2
-$TargetTime | Get-DateTimeFromUnixTime
-
-#>

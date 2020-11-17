@@ -1,4 +1,23 @@
-﻿Function Get-UnixTimeFromDateTime
+﻿<#
+
+.Synopsis
+Convert DateTime to UnixTime
+
+.DESCRIPTION
+Convert DateTime to UnixTime
+
+.EXAMPLE
+Get-UnixTimeFromDateTime -TargetTime "2020/10/01 0:0:0", "2020/11/01 0:0:0"
+
+.EXAMPLE
+"2020/10/01 0:0:0", "2020/11/01 0:0:0" | Get-UnixTimeFromDateTime
+
+.NOTES
+Author: nekrassov01
+
+#>
+
+Function Get-UnixTimeFromDateTime
 {
     [OutputType([System.Double])]
     [CmdletBinding()]
@@ -31,20 +50,3 @@
         return $Result
     }
 }
-
-<#
-
-### Example ###
-
-$TargetDate = @(
-    "2020/10/01 0:0:0"
-    "2020/11/01 0:0:0"
-)
-
-# Example 1
-Get-UnixTimeFromDateTime -TargetDate $TargetDate
-
-# Example 2
-$TargetDate | Get-UnixTimeFromDateTime
-
-#>

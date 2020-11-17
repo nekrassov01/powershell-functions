@@ -1,3 +1,22 @@
+<#
+
+.Synopsis
+Display DateTime on the Console Output
+
+.DESCRIPTION
+Display DateTime on the Console Output
+
+.EXAMPLE
+Out-Log -String "test"
+
+.EXAMPLE
+Out-Log "test"
+
+.NOTES
+Author: nekrassov01
+
+#>
+
 Function Out-Log
 {
     [OutputType([System.String])]
@@ -25,15 +44,3 @@ Function Out-Log
         Clear-Item -Path Variable:String
     }
 }
-
-<#
-
-### Example ###
-
-# Example 1
-Out-Log -String "test"
-
-# Example 2
-Out-Log "test"
-
-#>

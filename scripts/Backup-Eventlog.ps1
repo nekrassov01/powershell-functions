@@ -1,4 +1,36 @@
-﻿Function Dump-Eventlog
+﻿<#
+
+.Synopsis
+Optimize Windows Eventlog for CSV format
+
+.DESCRIPTION
+Optimize Windows Eventlog for CSV Format:
+ - Divided Timecreated into Date and Time
+ - Convert from UserId to UserName,
+ - Compress the Message to One Line
+
+.EXAMPLE
+$Params = @{ ComputerName = "localhost"; LogName = "System", "Application"; Level = 1,2,3; Recently = 24 }
+Backup-Eventlog @Params
+
+.EXAMPLE
+$Params = @{ ComputerName = "localhost"; LogName = "Security"; Level = 0; Recently = 24; EventId = 4625 }
+Backup-Eventlog @Params
+
+.EXAMPLE
+$Params = @{ LogName = "System", "Application"; Level = 1,2,3; Recently = 24 }
+"127.0.0.1" | Backup-Eventlog @Params
+
+.EXAMPLE
+$Params = @{ ComputerName = "localhost"; Level = 1,2,3; Recently = 24 }
+"System", "Application" | Backup-Eventlog @Params
+
+.NOTES
+Author: nekrassov01
+
+#>
+
+Function Backup-Eventlog
 {
     [OutputType([System.Object])]
     [CmdletBinding()]
@@ -94,44 +126,3 @@
         return $Result
     }
 }
-
-<#
-
-### Examples ###
-
-# Example 1
-$Params1 = @{
-    ComputerName = "localhost"
-    LogName      = "System", "Application"
-    Level        = 1,2,3
-    Recently     = 24*7
-}
-Dump-Eventlog @Params1
-
-# Example 2
-$Params2 = @{
-    ComputerName = "localhost"
-    LogName      = "Security"
-    Level        = 0
-    Recently     = 24
-    EventId      = 4624,4672
-}
-Dump-Eventlog @Params2
-
-# Example 3
-$Params3 = @{
-    LogName      = "System", "Application"
-    Level        = 1,2,3
-    Recently     = 24*7
-}
-"127.0.0.1" | Dump-Eventlog @Params3
-
-# Example 4
-$Params4 = @{
-    ComputerName = "localhost"
-    Level        = 1,2,3
-    Recently     = 24*7
-}
-"System", "Application" | Dump-Eventlog @Params4
-
-#>
